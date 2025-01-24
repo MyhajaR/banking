@@ -1,4 +1,4 @@
-package myhaja.kata.banking.application.domain.model;
+package myhaja.kata.banking.domain.model;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -12,19 +12,19 @@ import java.time.LocalDateTime;
 public class Activity {
 
     @Getter
-    private ActivityId id;
+    private Long id;
 
     @Getter
     @NonNull
-    private final Account.AccountId ownerAccountId;
+    private final Long ownerAccountId;
 
     @Getter
     @NonNull
-    private final Account.AccountId sourceAccountId;
+    private final Long sourceAccountId;
 
     @Getter
     @NonNull
-    private final Account.AccountId targetAccountId;
+    private final Long targetAccountId;
 
     @Getter
     @NonNull
@@ -40,9 +40,9 @@ public class Activity {
     }
 
     public Activity(
-            @NonNull Account.AccountId ownerAccountId,
-            @NonNull Account.AccountId sourceAccountId,
-            @NonNull Account.AccountId targetAccountId,
+            @NonNull Long ownerAccountId,
+            @NonNull Long sourceAccountId,
+            @NonNull Long targetAccountId,
             @NonNull LocalDateTime date,
             @NonNull Money money) {
         this.id = null;

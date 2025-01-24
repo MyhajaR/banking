@@ -1,4 +1,4 @@
-package myhaja.kata.banking.adapater.out.persistence;
+package myhaja.kata.banking.adapter.out.persistence;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

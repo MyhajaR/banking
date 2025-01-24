@@ -1,9 +1,9 @@
-package myhaja.kata.banking.adapater.out.persistence;
+package myhaja.kata.banking.adapter.out.persistence;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import myhaja.kata.banking.application.domain.model.Account;
-import myhaja.kata.banking.application.domain.model.Activity;
+import myhaja.kata.banking.domain.model.Account;
+import myhaja.kata.banking.domain.model.Activity;
 import myhaja.kata.banking.application.port.out.LoadAccountPort;
 import myhaja.kata.banking.application.port.out.UpdateAccountStatePort;
 import org.springframework.stereotype.Component;
@@ -21,18 +21,18 @@ public class AccountPersistenceAdapter implements
     private final AccountMapper accountMapper;
 
     @Override
-    public Account loadAccount(Account.AccountId accountId) {
-        var accountFromDataBase = accountRepository.findById(accountId.getValue())
-                .orElseThrow(EntityNotFoundException::new);
+    public Account loadAccount(Long accountId) {
+        var accountFromDataBase = accountRepository.findById(accountId)
+                .orElseThrow(() -> new EntityNotFoundException("Account not found"));
 
-        var activities = activityRepository.findByOwner(accountId.getValue());
+        var activities = activityRepository.findByOwner(accountId);
         var withdrawalTotal = activityRepository
                 .getWithdrawalBalance(
-                        accountId.getValue())
+                        accountId)
                 .orElse(BigDecimal.ZERO);
         var depositTotal = activityRepository
                 .getDepositBalance(
-                        accountId.getValue())
+                        accountId)
                 .orElse(BigDecimal.ZERO);
         return accountMapper.mapToDomainEntity(
                 accountFromDataBase,

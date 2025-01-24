@@ -1,9 +1,9 @@
-package myhaja.kata.banking.adapater.out.persistence;
+package myhaja.kata.banking.adapter.out.persistence;
 
-import myhaja.kata.banking.application.domain.model.Account;
-import myhaja.kata.banking.application.domain.model.Activity;
-import myhaja.kata.banking.application.domain.model.Money;
-import myhaja.kata.banking.application.domain.model.Statement;
+import myhaja.kata.banking.domain.model.Account;
+import myhaja.kata.banking.domain.model.Activity;
+import myhaja.kata.banking.domain.model.Money;
+import myhaja.kata.banking.domain.model.Statement;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -19,7 +19,7 @@ public class AccountMapper {
                 Money.of(withdrawalBalance)
         );
         return Account.withId(
-                new Account.AccountId(accountFromDataBase.getId()),
+                accountFromDataBase.getId(),
                 baseLineBalance,
                 mapToStatement(activities)
         );
@@ -30,10 +30,10 @@ public class AccountMapper {
 
         for (ActivityJpaEntity activity : activities) {
             mappedActivities.add(new Activity(
-                    new Activity.ActivityId(activity.getId()),
-                    new Account.AccountId(activity.getOwnerAccountId()),
-                    new Account.AccountId(activity.getSourceAccountId()),
-                    new Account.AccountId(activity.getTargetAccountId()),
+                    activity.getId(),
+                    activity.getOwnerAccountId(),
+                    activity.getSourceAccountId(),
+                    activity.getTargetAccountId(),
                     activity.getTimestamp(),
                     Money.of(activity.getAmount())));
         }
@@ -43,11 +43,11 @@ public class AccountMapper {
 
     public ActivityJpaEntity mapToJpaEntity(Activity activity) {
         return new ActivityJpaEntity(
-                activity.getId() == null ? null : activity.getId().getValue(),
+                activity.getId() == null ? null : activity.getId(),
                 activity.getDate(),
-                activity.getOwnerAccountId().getValue(),
-                activity.getSourceAccountId().getValue(),
-                activity.getTargetAccountId().getValue(),
+                activity.getOwnerAccountId(),
+                activity.getSourceAccountId(),
+                activity.getTargetAccountId(),
                 activity.getMoney().getAmount());
     }
 }

@@ -1,6 +1,8 @@
 spring:
+  application:
+    name: banking
   datasource:
-    url: jdbc:h2:mem:mydb
+    url: jdbc:h2:mem:banking
     username: sa
     password: password
     driverClassName: org.h2.Driver
